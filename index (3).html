@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Have You Seen This?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fdfaf5;
+      --ink: #1a1714;
+      --ink-soft: #4a453d;
+      --muted: #9a9088;
+      --amber: #b8832a;
+      --amber-light: #f0d98a;
+      --rule: #e4ddd2;
+      --card-bg: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(253,250,245,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2.5rem;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .brand {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .brand em { font-style: italic; color: var(--amber); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* HERO */
+    .hero {
+      padding: 6rem 2rem 5rem;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em { font-style: italic; color: var(--amber); }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      max-width: 460px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.85;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border: 1px solid var(--amber);
+      color: var(--amber);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.22s;
+      border-radius: 2px;
+    }
+    .btn:hover { background: var(--amber); color: #fff; }
+
+    /* DIVIDER */
+    hr { border: none; border-top: 1px solid var(--rule); margin: 0; }
+
+    /* POSTS */
+    .posts {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+    .post-list { display: flex; flex-direction: column; gap: 0; }
+
+    .post-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 0 2rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+    }
+
+    .post-item:first-child { border-top: 1px solid var(--rule); }
+
+    .post-book {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      padding-top: 0.3rem;
+      font-weight: 400;
+    }
+
+    .post-title {
+      font-family: 'Lora', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      transition: color 0.2s;
+    }
+
+    .post-item:hover .post-title { color: var(--amber); }
+
+    .post-title em { font-style: italic; }
+
+    .post-excerpt {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* VERSE BAND */
+    .verse {
+      background: var(--ink);
+      padding: 5.5rem 2rem;
+      text-align: center;
+    }
+
+    .verse blockquote {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.2rem, 3vw, 1.9rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--bg);
+      max-width: 600px;
+      margin: 0 auto 1.2rem;
+      line-height: 1.65;
+      opacity: 0.9;
+    }
+
+    .verse cite {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      font-style: normal;
+    }
+
+    /* ABOUT STRIP */
+    .about {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+    }
+
+    .about h2 em { font-style: italic; color: var(--amber); }
+
+    .about p {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+
+    /* NEWSLETTER */
+    .newsletter {
+      background: var(--rule);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .newsletter h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 0.8rem;
+    }
+
+    .newsletter p {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+    }
+
+    .form-row {
+      display: flex;
+      max-width: 440px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .form-row input {
+      flex: 1; padding: 0.85rem 1.2rem;
+      border: none; outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .form-row button {
+      padding: 0.85rem 1.4rem;
+      background: var(--amber);
+      border: none; cursor: pointer;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .form-row button:hover { background: #9a6e22; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.76rem; color: var(--muted);
+    }
+
+    footer a { color: var(--amber); text-decoration: none; }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .post-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .post-book { padding-top: 0; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .form-row { flex-direction: column; }
+      .form-row button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="brand" href="#">Have You <em>Seen This?</em></a>
+  <ul class="nav-links">
+    <li><a href="#posts">All Posts</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#newsletter">Subscribe</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-tag">A space for honest wonder</span>
+  <h1>Thoughts on Scripture<br/>that make you <em>stop and look.</em></h1>
+  <p>Not a sermon. Not a commentary. Just one person noticing things in the Bible and asking — did you see that too?</p>
+  <a href="#posts" class="btn">Read the Posts</a>
+</section>
+
+<hr/>
+
+<!-- POSTS -->
+<section class="posts" id="posts">
+  <div class="section-label">Latest Posts</div>
+  <div class="post-list">
+
+    <a class="post-item" href="#">
+      <span class="post-book">Genesis</span>
+      <div>
+        <h2 class="post-title">Why did God ask Adam <em>where</em> he was?</h2>
+        <p class="post-excerpt">He already knew. So why the question? There's something strange happening in that garden scene — and it's worth sitting with.</p>
+      </div>
+    </a>
+
+    <a class="post-item" href="#">
+      <span class="post-book">Genesis</span>
+      <div>
+        <h2 class="post-title">"Be fruitful and multiply" — but <em>could they?</em></h2>
+        <p class="post-excerpt">Adam and Eve were in a state of innocence. Was this a command they could even execute from where they stood, or was it spoken into a future they hadn't entered yet?</p>
+      </div>
+    </a>
+
+    <a class="post-item" href="#">
+      <span class="post-book">Genesis</span>
+      <div>
+        <h2 class="post-title">The earth was without form and void — but <em>God never creates a mess</em></h2>
+        <p class="post-excerpt">If God is a God of order, what happened between Genesis 1:1 and 1:2? Was the chaos original — or was something already here before the beginning?</p>
+      </div>
+    </a>
+
+    <a class="post-item" href="#">
+      <span class="post-book">Psalms</span>
+      <div>
+        <h2 class="post-title">David's anger in the Psalms <em>never gets talked about</em></h2>
+        <p class="post-excerpt">We quote the peaceful ones. But some of these prayers are raw, accusatory, and even unsettling. Scripture preserved all of it — what does that tell us?</p>
+      </div>
+    </a>
+
+    <a class="post-item" href="#">
+      <span class="post-book">New Testament</span>
+      <div>
+        <h2 class="post-title">The moment Jesus <em>said nothing</em></h2>
+        <p class="post-excerpt">There are silences in the Gospels that hit harder than any sermon. Before Pilate, he answered nothing. The silence wasn't weakness — it was the only response that made sense.</p>
+      </div>
+    </a>
+
+    <a class="post-item" href="#">
+      <span class="post-book">Revelation</span>
+      <div>
+        <h2 class="post-title">Silence in heaven for <em>half an hour</em></h2>
+        <p class="post-excerpt">Heaven is described as a place of unceasing worship. Revelation 8:1 records it going completely quiet. What was in that seventh seal that silenced eternity?</p>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<hr/>
+
+<!-- VERSE -->
+<section class="verse">
+  <blockquote>"It is the glory of God to conceal a matter, but the glory of kings is to search it out."</blockquote>
+  <cite>Proverbs 25 : 2</cite>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <h2>What is <em>Have You Seen This?</em></h2>
+  <p>This is a personal blog built around one habit — reading Scripture slowly enough to notice the things that don't quite make sense at first glance, and then sitting with the question instead of rushing past it.</p>
+  <p>No theology degree. No pulpit. Just an open Bible and genuine curiosity.</p>
+</section>
+
+<hr/>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <h2>New questions, every week</h2>
+  <p>No devotionals. No fluff. Just the verses people skip past — and the questions hiding inside them.</p>
+  <div class="form-row">
+    <input type="email" placeholder="your@email.com"/>
+    <button type="button">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Have You Seen This?</span>
+  <a href="#">Back to top ↑</a>
+</footer>
+
+</body>
+</html>
